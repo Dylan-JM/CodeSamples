@@ -1,0 +1,36 @@
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Blueprint/UserWidget.h"
+#include "ReturnToMainMenu.generated.h"
+
+class UMultiplayerSessionsSubsystem;
+class UButton;
+
+UCLASS()
+class BLASTER_API UReturnToMainMenu : public UUserWidget
+{
+	GENERATED_BODY()
+
+public:
+	void MenuSetup();
+	void MenuTearDown();
+
+protected:
+	virtual bool Initialize() override;
+	UFUNCTION()
+	void OnDestroySession(bool bWasSuccessful);
+	UFUNCTION()
+	void OnPlayerLeftGame();
+private:
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UButton> ReturnButton;
+
+	UFUNCTION()
+	void ReturnButtonClicked();
+
+	TObjectPtr<UMultiplayerSessionsSubsystem> MultiplayerSessionsSubsystem;
+	UPROPERTY()
+	TObjectPtr<APlayerController> PlayerController;
+};
