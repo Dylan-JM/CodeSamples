@@ -19,7 +19,7 @@ void URecordMatchStatsWidget::RecordMatchStatsButtonClicked()
 {
 	check(GameStatsManager)
 	
-	const FString Username = TEXT("TestUser4");
+	const FString Username = TEXT("testuser");
 	FDSRecordMatchStatsInput RecordMatchStatsInput;
 	RecordMatchStatsInput.username = Username;
 	RecordMatchStatsInput.matchStats.hits = 1;

@@ -50,10 +50,9 @@ void UGameStatsManager::RecordMatchStats_Response(FHttpRequestPtr Request, FHttp
 
 void UGameStatsManager::RetrieveMatchStats()
 {
-	RetrieveMatchStatsStatusMessage.Broadcast(TEXT("Retrieving match stats..."), false);
 	UDSLocalPlayerSubsystem* LocalPlayerSubsystem = GetDSLocalPlayerSubsystem();
-	if (IsValid(LocalPlayerSubsystem)) return;
-	check(APIData)
+	if (!IsValid(LocalPlayerSubsystem)) return;
+	check(APIData);
 	
 	TSharedRef<IHttpRequest> Request = FHttpModule::Get().CreateRequest();
 	const FString ApiUrl = APIData->GetAPIEndPoint(DedicatedServersTags::GameStatsAPI::RetrieveMatchStats);
@@ -61,11 +60,11 @@ void UGameStatsManager::RetrieveMatchStats()
 	Request->SetURL(ApiUrl);
 	Request->SetVerb("POST");
 	Request->SetHeader("Content-Type", "application/json");
-	
 	TMap<FString, FString> Params = {
-		{TEXT("accessToken"), LocalPlayerSubsystem->GetAuthResult().AccessToken}
+		{ TEXT("accessToken"), LocalPlayerSubsystem->GetAuthResult().AccessToken }
 	};
 	const FString Content = SerializeJsonContent(Params);
+	
 	Request->SetContentAsString(Content);
 	Request->ProcessRequest();
 }
